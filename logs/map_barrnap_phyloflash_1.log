@@ -27,3 +27,19 @@ Adding sequences from FASTA; added 1 sequences in 0.000188112 seconds.
 
 Running BLASTN...
 Done processing FLMOO_1329
+Processing sample: FLMOO_1329
+Making BLAST database from PhyloFlash FASTA...
+
+
+Building a new DB, current time: 07/17/2025 18:40:37
+New DB name:   /scratch01/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap_phylofish_mapping/FLMOO_1329/PF_DB
+New DB title:  /scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/FLMOO_1329.PFspades.fasta
+Sequence type: Nucleotide
+Deleted existing Nucleotide BLAST database named /scratch01/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap_phylofish_mapping/FLMOO_1329/PF_DB
+Keep MBits: T
+Maximum file size: 3000000000B
+Adding sequences from FASTA; added 1 sequences in 0.000302076 seconds.
+
+
+Running BLASTN...
+Done processing FLMOO_1329
