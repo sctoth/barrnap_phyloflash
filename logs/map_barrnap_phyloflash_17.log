@@ -1,0 +1,29 @@
+Processing sample: MParis298
+Making BLAST database from PhyloFlash FASTA...
+
+
+Building a new DB, current time: 07/17/2025 16:59:55
+New DB name:   /scratch01/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap_phylofish_mapping/MParis298/PF_DB
+New DB title:  /scratch/public/genomics/toths/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/MParis298.PFspades.fasta
+Sequence type: Nucleotide
+Keep MBits: T
+Maximum file size: 3000000000B
+BLAST options error: File /scratch/public/genomics/toths/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/MParis298.PFspades.fasta does not exist
+Running BLASTN...
+BLAST Database error: No alias or index file found for nucleotide database [PF_DB] in search path [/scratch01/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap_phylofish_mapping/MParis298:/scratch01/dbs/blast/v5:]
+Done processing MParis298
+Processing sample: MParis298
+Making BLAST database from PhyloFlash FASTA...
+
+
+Building a new DB, current time: 07/17/2025 17:03:26
+New DB name:   /scratch01/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap_phylofish_mapping/MParis298/PF_DB
+New DB title:  /scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/MParis298.PFspades.fasta
+Sequence type: Nucleotide
+Keep MBits: T
+Maximum file size: 3000000000B
+Adding sequences from FASTA; added 1 sequences in 0.000221014 seconds.
+
+
+Running BLASTN...
+Done processing MParis298
