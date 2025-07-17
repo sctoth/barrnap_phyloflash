@@ -9,12 +9,12 @@
 #$ -o logs/map_barrnap_phyloflash_$TASK_ID.log
 #$ -m bea
 #$ -M sctoth@ncsu.edu
-#$ -t 1-80 -tc 40  
+#$ -t 1-24 -tc 24  
 # ------------------------------------ #
 # Load required modules
 module load bio/blast
 MAIN_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
-SAMPLE_LIST="${MAIN_DIR}/sample_list.txt"
+SAMPLE_LIST="${MAIN_DIR}/sample_list_bacteria_all.txt"
 RRNA_GENE="16S"
 # ------------------------------------ #
 # Get the sample ID for the current task from the file
@@ -26,7 +26,7 @@ echo "Processing sample: $SAMPLE"
 BARRNAP_SEQS="${MAIN_DIR}/biocode_fish_barrnap/biocode_fish_barrnap_${RRNA_GENE}/${SAMPLE}_barrnap_${RRNA_GENE}.fasta"
 
 # Path to phyloflash fasta file
-PHYLOFLASH_SEQS="/scratch/public/genomics/toths/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/${SAMPLE}.PFspades.fasta"
+PHYLOFLASH_SEQS="/scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/${SAMPLE}.PFspades.fasta"
 
 ## WORKING DIRECTORY
 OUTDIR="${MAIN_DIR}/biocode_fish_barrnap_phylofish_mapping/${SAMPLE}"
