@@ -1,4 +1,5 @@
 #!/bin/bash
+# ------------------------------------ #
 #$ -S /bin/bash
 #$ -pe mthread 16
 #$ -q sThC.q
@@ -9,30 +10,30 @@
 #$ -o logs/barrnap_metadata_$TASK_ID.log
 #$ -m bea
 #$ -M sctoth@ncsu.edu
-#$ -t 1-24
+#$ -t 1-80 -tc 40  
 # ----------------Your Commands------------------- #
 module load bio/seqkit/2.8.1
-
-SAMPLE_LIST="/scratch/public/genomics/toths/biocode_fish_genome_skimming/sample_list_bacteria_all.txt"
-
+MAIN_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
+SAMPLE_LIST="${MAIN_DIR}/sample_list.txt"
+RRNA_GENE="16S"
+# ------------------------------------ #
 # Get the sample ID for the current task from the file
 SAMPLE=$(sed -n "${SGE_TASK_ID}p" $SAMPLE_LIST)
 
 echo "Processing sample: $SAMPLE"
 
 export SAMPLE
-RRNA_GENE="16S"
 
 # Set paths
-OUT_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap/biocode_fish_barrnap_${RRNA_GENE}"
+OUT_DIR="${MAIN_DIR}/biocode_fish_barrnap/biocode_fish_barrnap_${RRNA_GENE}"
 BLAST_RESULTS="${OUT_DIR}/${SAMPLE}_barrnap_${RRNA_GENE}_blast_results/${SAMPLE}_barrnap_${RRNA_GENE}_blast.txt"
-MEGAHIT_RESULTS="/scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap/${SAMPLE}_megahit/final.contigs.fa"
+MEGAHIT_RESULTS="${MAIN_DIR}/biocode_fish_barrnap/${SAMPLE}_megahit/final.contigs.fa"
 
 # Prepare working directory
 mkdir -p "${OUT_DIR}/${SAMPLE}_metadata"
 cd "${OUT_DIR}/${SAMPLE}_metadata" || exit 1
 
-# Step 1: Extract first hit per query_id
+# Extract first hit per query_id
 awk -F"\t" '
   NR==1{print "query_id,taxid,scientific_name,superkingdom"; next}
   !seen[$1]++{print $1","$13","$14","$15}
@@ -40,7 +41,7 @@ awk -F"\t" '
 
 echo "Extracted first hits" 
 
-# 1. Non-Eukaryota only, with sequence_name
+# Non-Eukaryota only, with sequence_name
 awk -F',' -v OFS=',' '
   NR==1 { print $0, "sequence_name"; next }
   $4 != "Eukaryota" {
@@ -48,7 +49,7 @@ awk -F',' -v OFS=',' '
     print $0, arr[1]
   }' "${SAMPLE}_${RRNA_GENE}_blast_unique_taxonomy.csv" > "${SAMPLE}_${RRNA_GENE}_blast_unique_taxonomy_no_eukaryota_with_seqname.csv"
 
-# 2. Eukaryota only, with sequence_name
+# Eukaryota only, with sequence_name
 awk -F',' -v OFS=',' '
   NR==1 { print $0, "sequence_name"; next }
   $4 == "Eukaryota" {
@@ -56,7 +57,7 @@ awk -F',' -v OFS=',' '
     print $0, arr[1]
   }' "${SAMPLE}_${RRNA_GENE}_blast_unique_taxonomy.csv" > "${SAMPLE}_${RRNA_GENE}_blast_eukaryota_only_with_seqname.csv"
 
-# 3. (Optional) The full CSV with sequence_name appended to every row
+# The full CSV with sequence_name appended to every row
 awk -F',' -v OFS=',' '
   NR==1 { print $0, "sequence_name"; next }
   {

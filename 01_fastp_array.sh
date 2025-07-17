@@ -6,17 +6,18 @@
 #$ -l mres=32G,h_data=2G,h_vmem=2G
 #$ -cwd
 #$ -j y
-#$ -N fastp_script
-#$ -o fastp_script_$TASK_ID.log
-#$ -t 11-402 -tc 40
+#$ -N 01_fastp
+#$ -o logs/01_fastp_$TASK_ID.log
+#$ -t 1-80 -tc 40 # Example: There are 80 total samples to be processed
 # ------------------------------------ #
 module load bio/fastp/0.23.4
+# Text file with basename of the samples to be processed
+SAMPLE_LIST="/scratch/public/genomics/toths/biocode_fish_genome_skimming/sample_list_all.txt"
 # Directory containing fastq files 
-SAMPLE_LIST="/scratch/nmnh_ocean_dna/SeqRuns/genohub40000024_Biocode2_01/run1/basenames.txt"
-# There are 402 samples in basenames.txt file
 FASTQ_DIR="/scratch/nmnh_ocean_dna/SeqRuns/genohub40000024_Biocode2_01/run1"
 cd $FASTQ_DIR
 
+# Creates trimmed_fastq directory for downstream analysis within
 mkdir -p trimmed_fastq
 mkdir -p log_files
 OUT_DIR="$FASTQ_DIR/trimmed_fastq"

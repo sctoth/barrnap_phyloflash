@@ -9,25 +9,28 @@
 #$ -o logs/map_barrnap_phyloflash_$TASK_ID.log
 #$ -m bea
 #$ -M sctoth@ncsu.edu
-#$ -t 23-24   # <-- Replace XX with the number of lines in sample_ids.txt
-
+#$ -t 1-80 -tc 40  
+# ------------------------------------ #
 # Load required modules
 module load bio/blast
-
-SAMPLE_LIST="/scratch/public/genomics/toths/biocode_fish_genome_skimming/sample_list_bacteria_all.txt"
-
+MAIN_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
+SAMPLE_LIST="${MAIN_DIR}/sample_list.txt"
+RRNA_GENE="16S"
+# ------------------------------------ #
 # Get the sample ID for the current task from the file
 SAMPLE=$(sed -n "${SGE_TASK_ID}p" $SAMPLE_LIST)
 
 echo "Processing sample: $SAMPLE"
 
 ## INPUT FILES
-BARRNAP_SEQS="/scratch/public/genomics/toths/biocode_fish_genome_skimming/biocode_fish_barrnap/biocode_fish_barrnap_16S/${SAMPLE}_barrnap_16S.fasta"
+BARRNAP_SEQS="${MAIN_DIR}/biocode_fish_barrnap/biocode_fish_barrnap_${RRNA_GENE}/${SAMPLE}_barrnap_${RRNA_GENE}.fasta"
+
+# Path to phyloflash fasta file
 PHYLOFLASH_SEQS="/scratch/public/genomics/toths/biocode_fish_phyloflash/fish_moorea_bacteria_phyloflash_SSUs_renamed/${SAMPLE}.PFspades.fasta"
 
 ## WORKING DIRECTORY
-BASE_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
-OUTDIR="${BASE_DIR}/biocode_fish_barrnap_phylofish_mapping/${SAMPLE}"
+OUTDIR="${MAIN_DIR}/biocode_fish_barrnap_phylofish_mapping/${SAMPLE}"
+# ------------------------------------ #
 mkdir -p "$OUTDIR"
 cd "$OUTDIR" || exit 1
 

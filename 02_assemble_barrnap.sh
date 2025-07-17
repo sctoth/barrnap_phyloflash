@@ -8,11 +8,10 @@
 #$ -v SSD_SAVE_MAX=0
 #$ -cwd
 #$ -j y
-#$ -N megahit_barrnap_script_array
-#$ -o megahit_barrnap_script_array_$TASK_ID.log
-#$ -t 1-143 -tc 40
+#$ -N 02_assemble_barrnap
+#$ -o logs/02_assemble_barrnap_$TASK_ID.log
+#$ -t 1-80 -tc 40  
 # ----------------Modules------------------------- #
-
 module load tools/conda/23.1.0
 start-conda 
 conda activate barrnap_env 
@@ -21,10 +20,19 @@ module load tools/ssd
 # barrnap has been downloaded in this environment
 module load bio/megahit/1.2.9 
 
-FASTQ_DIR="/scratch/public/genomics/vohsens/biocode_fish_phyloflash/trimmed_fastq"
-SAMPLE_LIST="/scratch/public/genomics/toths/biocode_fish_genome_skimming/sample_list_no_bacteria.txt"
-OUT_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming/megahit_barrnap_output/megahit_barrnap_other_output"
+# ----------------INPUT------------------------- #
+# Path to main directory, sample list and SSU rRNA of interest
+MAIN_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
+SAMPLE_LIST="${MAIN_DIR}/sample_list.txt"
 
+# Trimmed fastq sequences to be assembled (output directory from 01_fastp_array.sh)
+FASTQ_DIR="/scratch/public/genomics/vohsens/biocode_fish_phyloflash/trimmed_fastq"
+
+# Create output directory
+OUT_DIR="${MAIN_DIR}/biocode_fish_barrnap"
+mkdir -p "$OUT_DIR"
+
+# ----------------COMMANDS------------------------- #
 #sample = (task array)th line on sample list
 sample=$(sed -n "${SGE_TASK_ID}p" "$SAMPLE_LIST")
 echo processing sample $sample
@@ -58,8 +66,6 @@ cd ../
 #remove sample directories, relevant files stored one directory up
 rm -r "${sample}_barrnap"
 
-#
-# ----------------Your Commands------------------- #
 #
 echo finished sample $sample as SGE_TASK_ID $SGE_TASK_ID
 echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME

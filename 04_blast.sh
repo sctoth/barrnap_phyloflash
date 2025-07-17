@@ -1,18 +1,24 @@
 #!/bin/bash
+# ------------------------------------ #
 #$ -S /bin/sh
 #$ -pe mthread 16
 #$ -q sThM.q
 #$ -l mres=256G,h_data=16G,h_vmem=16G,himem
 #$ -cwd
 #$ -j y
-#$ -N blast_seqs
-#$ -o blast_seqs.log
+#$ -N 04_blast_seqs
+#$ -o logs/04_blast_seqs.log
 #$ -m bea
 #$ -M sctoth@ncsu.edu
-
+# ------------------------------------ #
 # Directory containing query FASTA files
 module load bio/blast
-indir="/scratch/public/genomics/toths/biocode_fish_genome_skimming/megahit_barrnap_output/biocode_fish_barrnap_16S"
+
+# Path to main directory, sample list and SSU rRNA of interest
+MAIN_DIR="/scratch/public/genomics/toths/biocode_fish_genome_skimming"
+SSU_RRNA="16S"
+# Define output directory from 02_assemble_barrnap
+indir="${MAIN_DIR}/biocode_fish_barrnap/biocode_fish_barrnap_${SSU_RRNA}"
 # BLAST database
 blastdb="/scratch/dbs/blast/v5/nt"
 
@@ -33,7 +39,6 @@ for fasta in "$indir"/*.fasta; do
         -max_target_seqs 15 >> "$blastout"
     echo "BLAST complete for $fasta"
 done
-# ----------------Your Commands------------------- #
 #
 echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
 #
